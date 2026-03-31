@@ -2,16 +2,16 @@ name: Deploy Vue to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main" ] # 监听主分支推送
 
 permissions:
-  contents: write # 必须要有这个，否则会报 403 错误
+  contents: write # 赋予机器人写入 gh-pages 分支的权限
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout 
         uses: actions/checkout@v4
 
       - name: Set up Node.js
@@ -24,10 +24,10 @@ jobs:
         run: npm install
 
       - name: Build project
-        run: npm run build # 确保你的 package.json 里有 "build": "vite build"
+        run: npm run build # 这一步会生成 dist 文件夹
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist
-          branch: gh-pages
+          folder: dist # 告诉机器人把打包后的 dist 文件夹发出去
+          branch: gh-pages # 托管分支设为 gh-pages
